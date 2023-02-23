@@ -1,0 +1,5 @@
+Why there is directory called public ?
+
+Static files are the website content that won't be changed, mainly images, JavaScript files (that, ironically, can be used to dynamically change the HTML content), CSS files. 
+They can be cached, that is, stored in the browser if we configure our website that way, so that, after being loaded for the first time, there's no need for the browser to redownload everything if the user access that webpage again.
+With that, subsequent accesses can be faster since the cached files may be used instead.

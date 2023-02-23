@@ -1,0 +1,142 @@
+
+<% layout('layouts/boilerplate')%>
+<style>
+    .stars-wrapper {
+    display: flex;
+    gap: 0.1rem;
+}
+ 
+.star-filled, .star-empty {
+    color: #f7c348;
+    text-shadow: 0.2px 0.5px 0 rgba(0, 0, 0, 0.25);
+}
+</style>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card mb-3">
+              <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <% if(camp.image.length == 0) {%>
+                        <div class="carousel-item active">
+                            <img  crossorigin=""  src="https://res.cloudinary.com/duwga9whh/image/upload/v1677057261/YelpCamp/default_o9ywoe.png" class="d-block w-100" alt="">
+                        </div>
+                    <% } else{ %>
+                    <% camp.image.forEach((img, i) => {  %>
+                        <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                            <img  crossorigin=""  src="<%= img.url%>" class="d-block w-100" alt="">
+                        </div>
+                    <% }) %>
+                    <% } %>
+                </div>
+                <% if(camp.image.length > 1) {%>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+                <% } %>
+
+              </div>
+
+            <div class="card-body">
+                <h5 class="card-title"><%= camp.title%></h5>
+                <p class="card-text"><%= camp.description%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"><%= camp.location%></li>
+                <li class="list-group-item">Created by <span style="font-weight: bolder;"><%= camp.author.username%></span></li>
+
+                <li class="list-group-item">$<%= camp.price%>/night</li>
+            </ul>
+            <% if (user && user._id.equals(camp.author._id) ) { %>
+                <div class="card-body">
+                    <a class="card-link btn btn-info" href="/campgrounds/<%=camp._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/campgrounds/<%=camp._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+    </div>
+        <div class="col-6">
+            <div id='map' style='width: 400px; height: 300px;'></div>
+
+            <% if (user) { %>
+            <form action="/campgrounds/<%=camp._id%>/reviews" method="POST"  novalidate class="needs-validation mb-3    ">
+                <!-- <div class="mb-3">
+                    <label class="form-label" for="rate">Rate</label>
+                    <input class="form-range" type="range" name="review[rate]" id="rate" min="1" max="5">
+                </div> -->
+                <div class='mb-3'>
+                    <label for='rating' class='form-label'>Rating</label>
+                    <input value='5' type='range' min='1' max='5' name='review[rate]' id='rating' class='form-range' list='ticks' />
+                    <datalist id='ticks' style='display: flex; justify-content: space-between'>
+                        <option style='color: #d62b00' value='1' label='1 &#9733'></option>
+                        <option style='color: #ff9008' value='2' label='2 &#9733'></option>
+                        <option style='color: #f7c348' value='3' label='3 &#9733'></option>
+                        <option style='color: #c1d600' value='4' label='4 &#9733'></option>
+                        <option style='color: #6bd600' value='5' label='5 &#9733'></option>
+                    </datalist>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="comment">Comment</label>
+                    <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="5" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div >
+                <button class="btn btn-success">Submit!</button>
+            </form>
+            <% } %>
+            <% for( review of camp.reviews ) { %>
+                <div class="card mb-3 ">
+                    <div class="card-body">
+                        <h5 class="card-title">Rating: <%= review.rate %></h5>
+                        <div class='stars-wrapper'>
+                            <% for( let i = 0; i < review.rate; i++ ) { %>
+                                <div class='star-filled'>&#9733;</div>
+                            <% } %>
+                            <% for( let i = 0; i < 5 - review.rate; i++ ) { %>
+                                <div class='star-empty'>&#9734;</div>
+                            <% } %>
+                        </div>
+                        <h6>by <%= review.author.username  %></h6>
+                        <p class="card-text">Review: <%= review.comment %></p>
+                    </div>
+                    <% if (user && user._id.equals(review.author._id) ) { %>
+                        <form action="/campgrounds/<%=camp._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger m-3">Delete</button>
+                        </form>
+                    <% } %>
+                    
+                </div>
+            <% } %>
+        </div>
+</div>
+
+
+<script>
+    const mapToken = "<%- process.env.MAPBOX_TOKEN %>";
+    const campLocation = "<%- camp.geometry.location %>"
+    const campground = <%- JSON.stringify(camp) %>;
+</script>
+<script src="/js/showPageMap.js"></script>
+
+
+<!-- <script>
+const map = new mapboxgl.Map({
+  container: "map", // container ID
+  style: "mapbox://styles/mapbox/streets-v12", // style URL
+  center: [-74.5, 40], // starting position [lng, lat]
+  zoom: 9, // starting zoom
+});
+
+</script> -->
