@@ -27,7 +27,7 @@
 
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
-        <textarea class="form-control" type="text" id="description" name="campground[description]" required><%= camp.description%> ></textarea>
+        <textarea class="form-control" type="text" id="description" name="campground[description]" required><%= camp.description%></textarea>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Please give a description!</div>
       </div>
@@ -54,3 +54,7 @@
     <a href="/campgrounds/<%= camp._id%>">Back To Campground</a>
   </div>
 </div>
+
+<script>
+  const campLength = "<%- camp.image.length %>"
+</script>

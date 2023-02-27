@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 const Schema = mongoose.Schema;
 const Review = require("./review")
+const cloudinary = require('cloudinary').v2;
 
 const ImageSchema = new Schema({
     url: String,
@@ -15,6 +16,7 @@ ImageSchema.virtual('thumbnail').get(function () {
 const opts = { toJSON: { virtuals: true } };
 
 const campgroundSchema = new Schema({
+    date: String,
     title: String,
     image: [ImageSchema],
     price: Number,
@@ -56,7 +58,14 @@ campgroundSchema.post("findOneAndDelete", async function(data){ // findByIdAndDe
                 $in: data.reviews
             }
         })
-    }})
+    }
+    if (data.image){
+        for (let filename of data.image) {
+            await cloudinary.uploader.destroy(filename.filename); // deleting images from cloudinary system
+        }
+    }
+
+})
 
 
 module.exports = mongoose.model("Campground", campgroundSchema);

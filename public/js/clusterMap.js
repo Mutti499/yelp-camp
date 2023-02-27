@@ -4,8 +4,9 @@ const map = new mapboxgl.Map({
   container: "map",
   // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
   style: "mapbox://styles/mapbox/dark-v11",
-  center: [-103.5917, 40.6699],
-  zoom: 3,
+  center: [31.030447, 40.071737], // For Turkey based zoom 6
+  //center: [-103.5917, 40.6699],// For USA based zoom 3
+  zoom: 6,
 });
 
 map.addControl(new mapboxgl.NavigationControl());

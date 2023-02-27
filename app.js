@@ -27,7 +27,6 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
 
-// const dbURL = process.env.DB_URL;
 const dbURL =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
@@ -44,7 +43,7 @@ app.set("view engine","ejs");
 
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // this is really important i can reach public from ejs files. look at src's of the links such as favicon in boilerplate.ejs
 app.use(mongoSanitize());
 
 
@@ -87,6 +86,7 @@ const scriptSrcUrls = [
     "https://kit.fontawesome.com/",
     "https://cdnjs.cloudflare.com/",
     "https://cdn.jsdelivr.net/",
+    "https://ajax.googleapis.com"
   ];
   const styleSrcUrls = [
     "https://kit-free.fontawesome.com/",

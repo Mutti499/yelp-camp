@@ -3,6 +3,7 @@ const cloudinary = require('cloudinary').v2;
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const main = async(req,res) => {
     const campgrounds = await Campground.find({});
@@ -22,7 +23,8 @@ const createCampground = async(req,res)=>{
     camp.geometry = geoData.body.features[0].geometry;
     camp.image = req.files.map(f => ({url : f.path, filename: f.filename}))
     camp.author = req.user._id;
-    console.log(camp);
+    let date = new Date();// Added current date when the posts are created
+    camp.date = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
     await camp.save();
     req.flash("success" , "Campground has been made!!")
     res.redirect(`/campgrounds/${camp._id}`)
@@ -61,7 +63,6 @@ const editCampground = async (req, res) => {
         }
         await camp.updateOne({$pull : { image : { filename :{ $in: req.body.deleteImages }} }})// deleting images from camp property
     }
-
     camp.image.push(...images);
     await camp.save();
     req.flash("success" , "Campground has been updated")

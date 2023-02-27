@@ -15,10 +15,14 @@ const cities = require("./cities");
 const maker = async () =>{
     await Campground.deleteMany({});
     
-    for(let a = 0; a < 500 ; a++){
+    for(let a = 0; a < 5 ; a++){
         let random2 =  Math.floor( Math.random() * 40) + 10;
         let random = Math.floor( Math.random() * 1000);
         let locationC =  `${cities[random].city } ${cities[random].state }`;
+
+        //Test locations set to Turkey to make more realistic test cases
+        let longt =  Math.random() * 18 + 26
+        let latit =   Math.random() * 6 + 36
 
         let descriptor = descriptors[Math.floor(descriptors.length * Math.random())];
         let place = places[Math.floor(places.length * Math.random())]
@@ -28,7 +32,8 @@ const maker = async () =>{
             author: "63f3533e407ef6ccaf893ae3",
             description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti consectetur vitae impedit optio possimus natus enim quibusdam quia, esse fuga. Accusamus assumenda sit impedit ipsa, dolorum amet quos adipisci nostrum.",
             price : random2,
-            geometry: { type: 'Point', coordinates: [cities[random].longitude, cities[random].latitude ] },
+            //geometry: { type: 'Point', coordinates: [cities[random].longitude, cities[random].latitude ] },
+            geometry: { type: 'Point', coordinates: [longt, latit ] },
             image:[
                 {
                     url: 'https://res.cloudinary.com/duwga9whh/image/upload/w_200/v1677005419/YelpCamp/bk1wogrhxjjaug0vjjiz.jpg',
