@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="icon" type="image/x-icon"sizes="310x310" href="/images/favicon.ico">
+
 </head>
 
 <body class="d-flex text-center text-white bg-dark">
@@ -19,10 +21,10 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="/campgrounds">Campgrounds</a>
                     <% if(!user) { %>
-                    <a class="nav-link" href="/login">Login</a>
-                    <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="/register">Register</a>
                     <% } else { %>
-                    <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     <% } %>
                 </nav>
             </div>
