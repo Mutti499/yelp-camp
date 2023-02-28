@@ -9,7 +9,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    passwordChanged: { 
+        type: Boolean,
+        default: false },
 });
 
 UserSchema.plugin(passportLocalMongoose);

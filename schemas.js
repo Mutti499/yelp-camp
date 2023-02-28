@@ -24,7 +24,7 @@ const extension = (joi) => ({
 const Joi = BaseJoi.extend(extension)
 
 module.exports.campgroundSchema = Joi.object({
-    campground: Joi.object({ // We are taking inputs in campground object so I need to check the object first thehn its properties..
+    campground: Joi.object({ // We are taking inputs in campground object so I need to check the object first then its properties..
         title: Joi.string().required().escapeHTML(),
         //image: Joi.string().required(),
         price: Joi.number().required().min(0),
@@ -41,3 +41,11 @@ module.exports.reviewSchema = Joi.object({
     }).required()
 
 });
+
+module.exports.passwordSchema = Joi.object({
+    password: Joi.string().required(),
+    password2: Joi.string().required().valid(Joi.ref('password')).messages({
+        "any.only": "The two passwords do not match",
+        "any.required": "Please re-enter the password",
+      }),
+  })

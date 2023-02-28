@@ -9,6 +9,8 @@ const register = async(req, res) => {
         const { username, email, password } = req.body;
         const user = new User({ username : username , email: email});
         const rUser = await User.register(user , password);
+
+
         req.login(rUser, (err) =>{ // when a new person register we should automatically login 
             if(err) return next(err);
             req.flash('success' , "New user created!")

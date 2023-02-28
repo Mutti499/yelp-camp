@@ -7,7 +7,7 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 
 const main = async(req,res) => {
     const campgrounds = await Campground.find({});
-    res.render("campground/campgrounds" , { campgrounds})
+    res.render("campground/campgrounds" , {campgrounds})
 }
 
 const newForm = async(req, res) =>{

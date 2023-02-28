@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YelpCamp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <link rel="stylesheet" href="/css/home.css">
     <link rel="icon" type="image/x-icon"sizes="310x310" href="/images/favicon.ico">
 
 </head>
 
 <body class="d-flex text-center text-white bg-dark">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="cover-container  d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
             <div>
-                <h3 class="float-md-left mb-0">YelpCamp</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-right">
+                <h3 class="float-md-start mb-0">YelpCamp</h3>
+                <nav class="nav nav-masthead justify-content-center float-md-end">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="/campgrounds">Campgrounds</a>
                     <% if(!user) { %>
@@ -33,24 +33,67 @@
             <h1>YelpCamp</h1>
             <p class="lead"> Welcome to YelpCamp! <br> Jump right in and explore our many campgrounds. <br>
                 Feel free to share some of your own and comment on others!</p>
-            <a href="/campgrounds" class="btn btn-lg btn-secondary font-weight-bold border-white bg-white">View
-                Campgrounds</a>
+            <a href="/campgrounds" class="btn btn-lg btn-secondary font-weight-bold border-white bg-white">View Campgrounds</a>
+            <a class="link-secondary d-block mt-3" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Learn whats new!</a>
         </main>
 
         <footer class="mt-auto text-white-50">
             <p>&copy; 2023 </p>
         </footer>
-
-
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
-        integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
-        crossorigin="anonymous"></script>
-</body>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-black" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body  text-black">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">01/03/2022</th>
+                  <td>                        
+                    <ul class="list-group text-start">
+                      <li class="list-group-item">Password reset with mail system added</li>
+                      <li class="list-group-item">Form validation errors fixed</li>
+                      <li class="list-group-item">Change log is added to keep track</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">28/03/2022</th>
+                  <td>                        
+                    <ul class="list-group text-start">
+                      <li class="list-group-item">File upload limit is added</li>
+                      <li class="list-group-item">Images renewed and added, favicon added</li>
+                      <li class="list-group-item">Campground deletion now also deletes images from server</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
+</body>  
 </html>
+
+<script>
+    var myModal = document.getElementById('myModal')
+    var myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', function () {
+        myInput.focus()
+    })
+</script>

@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
+const { passwordSchema } = require('./schemas.js');
 
 const express = require('express');
 const app = express();
@@ -16,6 +17,8 @@ const User = require('./models/user');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize'); // its required in order to prevent sql injection kind attacks
 const helmet = require("helmet");// it helps about securing the site far better
+var jwt = require('jsonwebtoken');//added for password resets
+var nodemailer = require('nodemailer');// added for sending password reset tokens
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -27,7 +30,7 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
 
-const dbURL =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
+const dbURL = 'mongodb://127.0.0.1:27017/CAMP'|| process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
     useUnifiedTopology: true
@@ -144,9 +147,127 @@ app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/reviews', reviewRoutes)
 
+
+
 app.get('/', (req,res)=>{
     res.render('home')
 })
+
+
+app.get("/forgot", async(req,res) => {
+  res.render("users/forgot");
+})
+
+app.post("/forgot", async (req,res) => {
+  const { email } = req.body;
+  const user = await User.findOne({email : email})
+
+  if(!user) {
+    req.flash('error' , "This email is not registered to the system");
+    return res.redirect('/forgot');
+  }
+  
+  const payload ={
+    email: user.email,
+    id: user.id
+  }
+  const secret = process.env.JWT_SECRET + user.id
+  const token = jwt.sign(payload, secret, {expiresIn:"15m"});
+  const link = `http://localhost:3000/reset-password/${user.id}/${token}`;
+  user.passwordChanged = false;
+  await user.save();
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GUSER,
+      pass: process.env.GPASSWORD
+    }
+  });
+
+
+  var mailOptions = {
+    from:  process.env.GUSER,
+    to: user.email,
+    subject: 'Instructions for password reset from YelpCamp!',
+    text:"Hello " + user.username + ",\n \n" +
+    "Somebody requested a new password for the YelpCamp account associated with " + user.email + ".\n \n" +
+    "No changes have been made to your account yet. \n \n" +
+    "You can reset your password by clicking the link below:\n" +
+    link + "\n \n" +
+    "If you did not request a new password, please let us know immediately by replying to this email.\n \n" +
+    "Yours, \n" +
+    "Mutti"
+  };
+
+
+
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      req.flash('error' , "Email sending process is broken. Please report that problem to admin!");
+      return res.redirect("/forgot");
+    } else {
+      req.flash('success' , `Email sent to ${user.email}`);
+      return res.redirect("/forgot")
+    }
+  });
+
+})
+
+
+app.get("/reset-password/:id/:token", async (req,res) => {
+  const {id , token } = req.params;
+  const user = await User.findById(id);
+
+
+  if(!user){
+    req.flash('error' , "Invalid ID");
+    return res.redirect("/login");
+  } else if(user.passwordChanged){
+    req.flash('error' , "Invalid ID");
+    return res.redirect("/login");
+  } 
+
+  const secret = process.env.JWT_SECRET + user.id;
+
+  try {
+    jwt.verify(token, secret);
+
+    return res.render("users/passwordReset", {token: token, user });
+  } catch (error) {
+    req.flash('error' , "Invalid token!");
+    return res.redirect("/login");
+  }
+
+})
+
+app.post("/reset-password/:id/:token", async (req,res) => {
+  const {id , token } = req.params;
+  const user = await User.findById(id);
+  if(!user){
+    req.flash('error' , "Invalid ID");
+    return res.redirect("/login");
+  } 
+
+  if(passwordSchema.validate(req.body).error){ 
+    let errorResult = passwordSchema.validate(req.body).error;
+    let errorMessage = errorResult.details.map(object => object.message).join(",")
+    req.flash('error' , errorMessage);
+    return res.redirect(`/reset-password/${user.id}/${token}`)
+
+  }
+  else{
+    user.passwordChanged = true;
+
+    await user.setPassword(req.body.password);
+    await user.save();
+    req.flash('success' , "Password Changed!");
+    return res.redirect("/login");
+}
+
+})
+
 
 app.all("*", (req,res,next) =>{
     next(new ExpressError("This Page is Not Found!", 404));
