@@ -30,7 +30,7 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
 
-const dbURL = 'mongodb://127.0.0.1:27017/CAMP'|| process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
+const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
     useUnifiedTopology: true
