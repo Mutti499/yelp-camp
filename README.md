@@ -15,7 +15,7 @@ This project is being created created using Node.js, Express, MongoDB, and Boots
 
 >The user can reset their password with their email adress.
 
->All the data will pe persistent and is stored in the MongoDB cloud.
+>All the data will be persistent and is stored in the MongoDB cloud.
 
 ## Technologies Used:
 
