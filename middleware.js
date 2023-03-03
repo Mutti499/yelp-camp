@@ -1,4 +1,4 @@
-const { campgroundSchema, reviewSchema } = require('./schemas.js');
+const { campgroundSchema, reviewSchema, passwordSchema, registerSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Campground = require('./models/campground');
 const Review = require('./models/review');
@@ -62,6 +62,30 @@ const isReviewAuthor = async (req, res, next) => {
     next();
 }
 
+const validatePassword = async (req, res, next) => {
+    const {id , token } = req.params;
+    if(passwordSchema.validate(req.body).error){ 
+        let errorResult = passwordSchema.validate(req.body).error;
+        let errorMessage = errorResult.details.map(object => object.message).join(",")
+        req.flash('error' , errorMessage);
+        return res.redirect(`/reset-password/${id}/${token}`)
+    }
+    else{
+        next();
+    }
 
+}
 
-module.exports = {isLoggedIn, isAuthor, validateCampground, validateReview, isReviewAuthor};
+const validateRegister = async (req, res, next) => {
+    if(registerSchema.validate(req.body).error){ 
+        let errorResult = registerSchema.validate(req.body).error;
+        let errorMessage = errorResult.details.map(object => object.message).join(",")
+        req.flash('error' , errorMessage);
+        return res.redirect(`/register`)
+    }
+    else{
+        next();
+    }
+}
+
+module.exports = {isLoggedIn, isAuthor, validateCampground, validateReview, isReviewAuthor, validatePassword, validateRegister};

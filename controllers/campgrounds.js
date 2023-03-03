@@ -49,7 +49,7 @@ const getCampground = async (req, res) => {
         req.flash("error", "Cannot find that campground");
         return res.redirect("/campgrounds");
     }
-    res.render("campground/show", {camp } );
+    res.render("campground/show", {camp} );
 }
 
 const editCampground = async (req, res) => {

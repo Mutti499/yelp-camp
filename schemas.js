@@ -26,7 +26,6 @@ const Joi = BaseJoi.extend(extension)
 module.exports.campgroundSchema = Joi.object({
     campground: Joi.object({ // We are taking inputs in campground object so I need to check the object first then its properties..
         title: Joi.string().required().escapeHTML(),
-        //image: Joi.string().required(),
         price: Joi.number().required().min(0),
         description: Joi.string().required().escapeHTML(),
         location: Joi.string().required().escapeHTML(),
@@ -48,4 +47,11 @@ module.exports.passwordSchema = Joi.object({
         "any.only": "The two passwords do not match",
         "any.required": "Please re-enter the password",
       }),
+  })
+
+  module.exports.registerSchema = Joi.object({
+    username: Joi.string().required(),
+    email: Joi.string().required().email().messages({"string.email": "Please give valid email!"}),
+    password: Joi.string().required().min(4).messages({"string.min": "Password must be at least 4 character!"})
+
   })

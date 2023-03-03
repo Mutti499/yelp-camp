@@ -4,10 +4,11 @@ const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
 const User = require('../models/user');
 const users = require("../controllers/users")
+const { validateRegister } = require('../middleware.js');
 
 router.route("/register")
         .get(users.registerForm)
-        .post(catchAsync(users.register))
+        .post(validateRegister, catchAsync(users.register))
 
 router.route("/login")
         .get(users.loginForm)

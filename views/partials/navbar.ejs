@@ -1,8 +1,11 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-dark"  data-bs-theme="dark">
+<nav class="navbar navbar-dark sticky-top navbar-expand-lg bg-dark"  data-bs-theme="dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="/campgrounds">YelpCamp</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <% if (user) { %>
+        <label class="navbar-text d-lg-none ">Welcome <%= user.username %></label>
+      <% }%>  
+      <button class="navbar-toggler bg-muted" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon "></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
@@ -13,14 +16,10 @@
         <div class="navbar-nav ms-auto">
           <% if (!user) { %>
             <a class='nav-link' href="/login">Login</a>
-            <a class='nav-link' href="/register">Register</a>
           <% } else {%>
-            <label class="navbar-text">Welcome <%= user.username %></label>
-
+            <label class="navbar-text d-lg-inline d-none">Welcome <%= user.username %></label>
             <a class='nav-link' href="/logout">Logout</a>
-          <% } %>
-
-          
+          <% } %>         
         </div>
       </div>
     </div>
