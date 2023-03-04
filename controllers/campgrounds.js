@@ -54,7 +54,6 @@ const getCampground = async (req, res) => {
 
 const editCampground = async (req, res) => {
     const {id} = req.params;
-    console.log(req.body)
     const camp = await Campground.findByIdAndUpdate(id, req.body.campground);
     const images = req.files.map(f => ({url : f.path, filename: f.filename}))
     if(req.body.deleteImages){

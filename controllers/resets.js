@@ -19,7 +19,6 @@ const resetPageLoader = async (req,res) => {
   
     try {
       jwt.verify(token, secret);
-  
       return res.render("users/passwordReset", {token: token, user });
     } catch (error) {
       req.flash('error' , "Invalid token!");

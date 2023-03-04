@@ -27,6 +27,7 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const forgotRoutes = require('./routes/forgot');
 const resetRoutes = require('./routes/reset');
+const changeRoutes = require('./routes/change');
 
 
 const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
@@ -147,7 +148,7 @@ app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 app.use('/forgot', forgotRoutes);
 app.use('/reset-password', resetRoutes);
-
+app.use("/change-password", changeRoutes)
 
 
 app.get('/', (req,res)=>{

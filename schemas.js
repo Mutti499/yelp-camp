@@ -42,8 +42,17 @@ module.exports.reviewSchema = Joi.object({
 });
 
 module.exports.passwordSchema = Joi.object({
-    password: Joi.string().required(),
-    password2: Joi.string().required().valid(Joi.ref('password')).messages({
+    password1: Joi.string().required(),
+    password2: Joi.string().required().valid(Joi.ref('password1')).messages({
+        "any.only": "The two passwords do not match",
+        "any.required": "Please re-enter the password",
+      }),
+  })
+
+  module.exports.passwordSchema2 = Joi.object({
+    oldPassword: Joi.string().required(),
+    password1: Joi.string().required(),
+    password2: Joi.string().required().valid(Joi.ref('password1')).messages({
         "any.only": "The two passwords do not match",
         "any.required": "Please re-enter the password",
       }),

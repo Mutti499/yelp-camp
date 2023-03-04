@@ -12,13 +12,25 @@
           <a class="nav-link" href="/">Home</a>
           <a class="nav-link" href="/campgrounds">Campgrounds</a>
           <a class="nav-link" href="/campgrounds/new">Add New</a>
+          <% if (user) { %>
+            <a class="nav-link  d-lg-none" href="/change-password/<%=user.id %>">Settings</a>
+          <% }%>  
         </div>
         <div class="navbar-nav ms-auto">
           <% if (!user) { %>
             <a class='nav-link' href="/login">Login</a>
           <% } else {%>
-            <label class="navbar-text d-lg-inline d-none">Welcome <%= user.username %></label>
-            <a class='nav-link' href="/logout">Logout</a>
+            <div class="dropdown d-none d-lg-inline">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <label class="navbar-text d-lg-inline d-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Welcome <%= user.username %></label>
+                </button>
+
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="">Show Profile</a></li>
+                <li><a class="dropdown-item" href="/change-password/<%=user.id %>">Settings</a></li>
+                <li><a class='dropdown-item' href="/logout">Logout</a></li>
+              </ul>
+            </div>
           <% } %>         
         </div>
       </div>

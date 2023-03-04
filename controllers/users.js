@@ -29,7 +29,7 @@ const loginForm = (req, res) => {
 }
 
 const login = async(req, res) => {
-    req.flash('success' , "Welcome BACK!")
+    req.flash('success' , "Welcome Back!")
     const redirectUrl = req.session.returnTo || "/campgrounds"; //normall passport version 0.6.0 is makin a new session and hence we lose our returnTo but I added 'keepSessionInfo : true' to keep it so I can use returnTo value from here
     delete req.session.returnTo;
     res.redirect(redirectUrl);
