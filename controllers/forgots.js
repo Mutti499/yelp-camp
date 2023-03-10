@@ -51,7 +51,7 @@ const tokenSend = async (req,res) => {
   
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
-        req.flash('error' , "Email sending process is broken. Please report that problem to admin!");
+        req.flash('error' , "You probably regşstered with a mail which is not valid or email sending process is broken. Please report that problem to admin!");
         return res.redirect("/forgot");
       } else {
         req.flash('success' , `Email sent to ${user.email}`);

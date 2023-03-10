@@ -30,7 +30,7 @@ const resetRoutes = require('./routes/reset');
 const changeRoutes = require('./routes/change');
 
 
-const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
+const dbURL =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
     useUnifiedTopology: true
@@ -154,6 +154,28 @@ app.use("/change-password", changeRoutes)
 app.get('/', (req,res)=>{
     res.render('home')
 })
+
+
+
+app.get('/users/:id', async (req,res) => {
+
+  try {
+    const user = await User.findById(req.params.id);
+    if(!user){
+      req.flash("error", "User not found!")
+      res.redirect("/campgrounds");
+    }
+  } catch (error) {
+    req.flash("error", "User not found!")
+    res.redirect("/campgrounds");
+
+  }
+
+  res.render('users/profile');
+})
+
+
+
 
 app.all("*", (req,res,next) =>{
     next(new ExpressError("This Page is Not Found!", 404));

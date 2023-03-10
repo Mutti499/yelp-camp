@@ -1,6 +1,7 @@
 const Campground = require('../models/campground');
 const cloudinary = require('cloudinary').v2;
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const campground = require('../models/campground');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -15,8 +16,10 @@ const newForm = async(req, res) =>{
 }
 
 const createCampground = async(req,res)=>{
+    const { country, city, detail} = req.body.campground
+    const queryString = country + " " + city + " " + detail
     const geoData = await geocoder.forwardGeocode({
-        query: req.body.campground.location,
+        query: queryString,
         limit: 1
     }).send()
     const camp = new Campground(req.body.campground);

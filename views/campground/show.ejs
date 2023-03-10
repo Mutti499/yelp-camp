@@ -66,61 +66,60 @@
             </div>
         </div>
         <a href="/campgrounds" class="btn btn-sm btn-outline-primary my-2">Back to Campgrounds</a>
-
     </div>
-        <div class="col-md-6">
-            <div id='map' style='width: 100%; height: 300px;'></div>
-            <% if (user) { %>
-            <form action="/campgrounds/<%=camp._id%>/reviews" method="POST"  novalidate class="needs-validation mb-3    ">
-                <!-- <div class="mb-3">
-                    <label class="form-label" for="rate">Rate</label>
-                    <input class="form-range" type="range" name="review[rate]" id="rate" min="1" max="5">
-                </div> -->
-                <div class='mb-3'>
-                    <label for='rating' class='form-label'>Rating</label>
-                    <input value='5' type='range' min='1' max='5' name='review[rate]' id='rating' class='form-range' list='ticks' />
-                    <datalist id='ticks' style='display: flex; justify-content: space-between'>
-                        <option style='color: #d62b00' value='1' label='1 &#9733'></option>
-                        <option style='color: #ff9008' value='2' label='2 &#9733'></option>
-                        <option style='color: #f7c348' value='3' label='3 &#9733'></option>
-                        <option style='color: #c1d600' value='4' label='4 &#9733'></option>
-                        <option style='color: #6bd600' value='5' label='5 &#9733'></option>
-                    </datalist>
+    <div class="col-md-6">
+        <div id='map' style='width: 100%; height: 300px;'></div>
+        <% if (user) { %>
+        <form action="/campgrounds/<%=camp._id%>/reviews" method="POST"  novalidate class="needs-validation mb-3    ">
+            <!-- <div class="mb-3">
+                <label class="form-label" for="rate">Rate</label>
+                <input class="form-range" type="range" name="review[rate]" id="rate" min="1" max="5">
+            </div> -->
+            <div class='mb-3'>
+                <label for='rating' class='form-label'>Rating</label>
+                <input value='5' type='range' min='1' max='5' name='review[rate]' id='rating' class='form-range' list='ticks' />
+                <datalist id='ticks' style='display: flex; justify-content: space-between'>
+                    <option style='color: #d62b00' value='1' label='1 &#9733'></option>
+                    <option style='color: #ff9008' value='2' label='2 &#9733'></option>
+                    <option style='color: #f7c348' value='3' label='3 &#9733'></option>
+                    <option style='color: #c1d600' value='4' label='4 &#9733'></option>
+                    <option style='color: #6bd600' value='5' label='5 &#9733'></option>
+                </datalist>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="comment">Comment</label>
+                <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="5" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="comment">Comment</label>
-                    <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="5" required></textarea>
-                    <div class="valid-feedback">
-                        Looks good!
+            </div >
+            <button class="btn btn-success">Submit!</button>
+        </form>
+        <% } %>
+        <% for( review of camp.reviews ) { %>
+            <div class="card mb-3 ">
+                <div class="card-body">
+                    <h5 class="card-title">Rating: <%= review.rate %></h5>
+                    <div class='stars-wrapper'>
+                        <% for( let i = 0; i < review.rate; i++ ) { %>
+                            <div class='star-filled'>&#9733;</div>
+                        <% } %>
+                        <% for( let i = 0; i < 5 - review.rate; i++ ) { %>
+                            <div class='star-empty'>&#9734;</div>
+                        <% } %>
                     </div>
-                </div >
-                <button class="btn btn-success">Submit!</button>
-            </form>
-            <% } %>
-            <% for( review of camp.reviews ) { %>
-                <div class="card mb-3 ">
-                    <div class="card-body">
-                        <h5 class="card-title">Rating: <%= review.rate %></h5>
-                        <div class='stars-wrapper'>
-                            <% for( let i = 0; i < review.rate; i++ ) { %>
-                                <div class='star-filled'>&#9733;</div>
-                            <% } %>
-                            <% for( let i = 0; i < 5 - review.rate; i++ ) { %>
-                                <div class='star-empty'>&#9734;</div>
-                            <% } %>
-                        </div>
-                        <h6>by <%= review.author.username  %></h6>
-                        <p class="card-text">Review: <%= review.comment %></p>
-                    </div>
-                    <% if (user && user._id.equals(review.author._id) ) { %>
-                        <form action="/campgrounds/<%=camp._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-                            <button class="btn btn-sm btn-danger m-3">Delete</button>
-                        </form>
-                    <% } %>
-                    
+                    <h6>by <%= review.author.username  %></h6>
+                    <p class="card-text">Review: <%= review.comment %></p>
                 </div>
-            <% } %>
-        </div>
+                <% if (user && user._id.equals(review.author._id) ) { %>
+                    <form action="/campgrounds/<%=camp._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger m-3">Delete</button>
+                    </form>
+                <% } %>
+                
+            </div>
+        <% } %>
+    </div>
 </div>
 
 

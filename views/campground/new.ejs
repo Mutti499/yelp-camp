@@ -15,19 +15,40 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="campground[location]" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please give a location!
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label" for="country">Country</label>
+                        <select class="form-select" id="country" name="campground[country]"  required>
+                            <option value="Turkey" selected>Turkey</option>
+                            <%- include("../partials/countries.ejs") %>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label" for="city">City</label>
+                        <select class="form-select" id="city" name="campground[city]" >
+                            <%- include("../partials/cities.ejs") %>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="location">More Detail</label>
+                        <input class="form-control" type="text" id="location" name="campground[detail]" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please give a little detail!
+                        </div>
+                    </div>
                 </div>
             </div>
+            
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Images of campsite ( Max : 4 )</label>
                 <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
-              </div>
+                <div class="valid-feedback">
+                    No image is accepted!
+                </div>
+            </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Campground Price</label>
                 <div class="input-group">
@@ -60,3 +81,40 @@
     </div>
     
 </div>
+
+<script>
+    const citiesByCountry = {
+        usa: ['New York', 'Los Angeles', 'Chicago', 'Houston'],
+        canada: ['Toronto', 'Montreal', 'Vancouver', 'Calgary'],
+        uk: ['London', 'Manchester', 'Birmingham', 'Glasgow'],
+        Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Adana", "Konya", "Gaziantep", "Mersin", "Diyarbakir", "Kayseri", "Kocaeli", "Samsun", "Denizli", "Hatay", "Kahramanmaras", "Sivas", "Malatya", "Van", "Erzurum", "Trabzon", "Balikesir", "Manisa", "Sakarya", "Eskisehir", "Kutahya", "Afyon", "Tekirdag", "Zonguldak", "Rize", "Ordu", "Aydin", "Isparta", "Yozgat", "Osmaniye", "Aksaray", "Nigde", "Bolu", "Karaman", "Nevsehir", "Kirikkale", "Usak", "Cankiri", "Batman", "Kars", "Artvin", "Sinop", "Siirt", "Yalova", "Agri", "Gumushane", "Bingol", "Tunceli", "Bartin", "Erzincan", "Giresun", "Hakkari", "Igdir", "Kilis", "Duzce", "Adiyaman", "Ardahan", "Bayburt", "Kirklareli", "Kirsehir", "Sirnak", "Gazipasa", "Soma", "Nizip", "Ceyhan", "Fatsa", "Erbaa", "Kadirli", "Odemis", "Besni", "Bucak", "Dargecit", "Sorgun", "Siverek", "Golbasi", "Birecik", "Dogubayazit", "Altinordu", "Cermik", "Alapli", "Midyat", "Serik", "Terme", "Nusaybin", "Sereflikochisar", "Beypazari", "Silvan", "Hopa", "Mudanya", "Beykonak", "Baskil", "Bozyazi", "Kozan", "Havsa", "Borcka", "Karacabey", "Gazipasa", "Tirebolu", "Kulu", "Tasova", "Dikili", "Kale", "Ergani", "Foca", "Umraniye", "Kocarli", "Hilvan", "Kozluk", "Ozalp", "Dortyol", "Belen", "Uzunkopru", "Eynesil", "Yalvac", "Pasinler", "Akcakale", "Iznik", "Tire", "Tutak", "Gorele", "Kahramanmaraş"]
+    };
+
+    const countrySelect = document.getElementById('country');
+    const citySelect = document.getElementById('city');
+
+    countrySelect.addEventListener('change', (event) => {
+        const country = event.target.value;
+        if (country) {
+            citySelect.disabled = false;
+            citySelect.innerHTML = '';
+            const cities = citiesByCountry[country];
+            if(!cities){
+                const option = document.createElement('option');
+                option.value = "Some city";
+                option.text = "Some city";
+                citySelect.disabled = true;
+                citySelect.appendChild(option);
+            }
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.text = city;
+                citySelect.appendChild(option);
+            });
+        } else {
+            citySelect.disabled = true;
+            citySelect.innerHTML = '<option value="">Select a city</option>';
+        }
+    });
+</script>
