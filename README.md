@@ -13,6 +13,8 @@ This project is being created created using Node.js, Express, MongoDB, and Boots
 
 >The user can only edit/delete the campgrounds and comments that they have added.
 
+>The user can change their password.
+
 >The user can reset their password with their email adress.
 
 >All the data will be persistent and is stored in the MongoDB cloud.
@@ -42,8 +44,5 @@ This project is being created created using Node.js, Express, MongoDB, and Boots
 >Data Associations - associating user data with the respective campgrounds and comments using reference method
 
 >Heroku - cloud platform as a service used as a web application deployment model
-
->AWS - mongodb is hosted on amazon ec2 instance
-
 
 (Descripton mainly written by @igoswamik)
