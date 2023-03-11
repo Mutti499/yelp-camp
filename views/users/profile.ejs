@@ -1,12 +1,44 @@
 <% layout('layouts/boilerplate') %>
-        <div class="row">
-            <div class="col-3  text-center">
-                <h1>profile</h1>
-                
-            </div>
+<div class="row">
+    <div class="col-md-3 text-center bg-light"  style="max-height: 350px;">
+        <img src="/images/defaultpp.jpg" class="img-thumbnail mt-5 mb-4" alt="profile_picture" style="height: 200px; border-radius: 50%;">
+        <h5><%= author.username %></h5>	
+    </div>
 
-            <div class="col-7 offset-1 text-center">
-                <h1>campgrounds</h1>
-
+    <div class="col-md-8 offset-md-1 text-center bg-light">
+        <% if (userCampgrounds.length == 0) { %>
+            <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+                <h3 class="text-center ">This user has no campsites to display, yet..</h3>
             </div>
-        </div>
+        <% } else { %>
+            <h2>Campgrounds added by <%= author.username %></h1>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <% for( let camp of userCampgrounds ) { %>
+                    <div class="col p-2">
+                        <div class="card text-center text-md-start rounded-2 p-2">
+                            <% if (camp.image.length === 0) { %>
+                                <img class="img-fluid img-thumbnail"  
+                                crossorigin=""  src="https://res.cloudinary.com/duwga9whh/image/upload/v1677057261/YelpCamp/default_o9ywoe.png" 
+                                alt="default">
+                            <% } else { %>
+                                <img src="<%= camp.image[0].url %>"  crossorigin=""  alt="" class="img-fluid img-thumbnail">
+                            <% } %>
+                            <div class="card-body">
+                                <h5 class="card-title"><%= camp.title %></h5>
+                                <% if (camp.description.length > 75) { %>
+                                    <p class="card-text"><%= camp.description.slice(0, 75) %>...</p>
+                                <% } else {%>
+                                    <p class="card-text"><%= camp.description %></p>
+                                <% } %>
+                                <p class="card-text">
+                                    <small class="text-muted"><img src="images/location-sign.svg" alt=""><%= camp.location %></small>
+                                </p>
+                                <a href="/campgrounds/<%= camp.id %>" class="btn btn-sm btn-primary">View <%= camp.title %></a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</div>

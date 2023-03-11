@@ -2,6 +2,8 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+const Campground = require('./models/campground'); // It will be removed when user profile endpoint redesigned
+
 const express = require('express');
 const app = express();
 const path = require("path");
@@ -30,7 +32,7 @@ const resetRoutes = require('./routes/reset');
 const changeRoutes = require('./routes/change');
 
 
-const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
+const dbURL =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
     useUnifiedTopology: true
@@ -147,14 +149,13 @@ app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 app.use('/forgot', forgotRoutes);
-app.use('/reset-password', resetRoutes);
+app.use('/reset-password', resetRoutes); // Setting routes will be added for change password and edit profile!
 app.use("/change-password", changeRoutes)
 
 
 app.get('/', (req,res)=>{
     res.render('home')
 })
-
 
 
 app.get('/users/:id', async (req,res) => {
@@ -165,17 +166,17 @@ app.get('/users/:id', async (req,res) => {
       req.flash("error", "User not found!")
       res.redirect("/campgrounds");
     }
+    else{
+      const userCampgrounds = await Campground.find({author : user._id})
+      res.render('users/profile', { author: user, userCampgrounds });
+    }
   } catch (error) {
     req.flash("error", "User not found!")
     res.redirect("/campgrounds");
 
   }
 
-  res.render('users/profile');
 })
-
-
-
 
 app.all("*", (req,res,next) =>{
     next(new ExpressError("This Page is Not Found!", 404));

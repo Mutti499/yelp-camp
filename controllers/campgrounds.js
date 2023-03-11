@@ -1,7 +1,6 @@
 const Campground = require('../models/campground');
 const cloudinary = require('cloudinary').v2;
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-const campground = require('../models/campground');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
