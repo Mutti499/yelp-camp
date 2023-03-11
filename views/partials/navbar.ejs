@@ -2,7 +2,17 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="/campgrounds">YelpCamp</a>
       <% if (user) { %>
-        <label class="navbar-text d-lg-none ">Welcome <%= user.username %></label>
+        <div class="dropdown d-lg-none me-auto">
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <label class="navbar-text d-lg-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Welcome <%= user.username %></label>
+          </button>
+
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/users/<%=user.id %>">Show Profile</a></li>
+          <li><a class="dropdown-item" href="/change-password/<%=user.id %>">Settings</a></li>
+          <li><a class='dropdown-item' href="/logout">Logout</a></li>
+        </ul>
+      </div>
       <% }%>  
       <button class="navbar-toggler bg-muted" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon "></span>

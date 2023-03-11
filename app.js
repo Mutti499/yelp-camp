@@ -30,7 +30,7 @@ const resetRoutes = require('./routes/reset');
 const changeRoutes = require('./routes/change');
 
 
-const dbURL =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
+const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
     useUnifiedTopology: true
