@@ -11,7 +11,7 @@
                 <h3 class="text-center ">This user has no campsites to display, yet..</h3>
             </div>
         <% } else { %>
-            <h2>Campgrounds added by <%= author.username %></h1>
+            <h2 class="my-3">Campgrounds added by <%= author.username %></h1>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <% for( let camp of userCampgrounds ) { %>
                     <div class="col p-2">
