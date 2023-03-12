@@ -32,7 +32,7 @@ const resetRoutes = require('./routes/reset');
 const changeRoutes = require('./routes/change');
 
 
-const dbURL =  process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
+const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CAMP'
 mongoose.connect(dbURL, {
     useNewUrlParser : true,
     useUnifiedTopology: true
@@ -159,7 +159,6 @@ app.get('/', (req,res)=>{
 
 
 app.get('/users/:id', async (req,res) => {
-
   try {
     const user = await User.findById(req.params.id);
     if(!user){
@@ -175,7 +174,23 @@ app.get('/users/:id', async (req,res) => {
     res.redirect("/campgrounds");
 
   }
+})
 
+app.get('/users/:id/edit', async (req,res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if(!user){
+      req.flash("error", "User not found!")
+      res.redirect("/campgrounds");
+    }
+    else{
+      res.render('users/profileEdit', { user });
+    }
+  } catch (error) {
+    req.flash("error", "User not found!")
+    res.redirect("/campgrounds");
+
+  }
 })
 
 app.all("*", (req,res,next) =>{

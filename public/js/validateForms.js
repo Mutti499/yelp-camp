@@ -2,10 +2,9 @@
     "use strict";
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    let forms = document.querySelectorAll(".needs-validation-edit");
-    let forms2 = document.querySelectorAll(".needs-validation");
-
-    let userForm = document.querySelectorAll(".validateForm");
+    let forms = document.querySelectorAll(".needs-validation-edit"); // used in only campground edit page
+    let forms2 = document.querySelectorAll(".needs-validation"); // used in only new campground page
+    let userForm = document.querySelectorAll(".validateForm"); // used in register, forgot. password reset and password change page
 
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms).forEach(function (form) {
@@ -56,10 +55,8 @@
       );
     });
 
-
     
-    Array.prototype.slice.call(userForm)
-    .forEach(function (form) {
+    Array.prototype.slice.call(userForm).forEach(function (form) {
       form.addEventListener('submit', function (event) {
         if (!form.checkValidity()) {
           event.preventDefault()
@@ -70,8 +67,7 @@
       }, false)
     })
 
-    Array.prototype.slice.call(forms2)
-    .forEach(function (form) {
+    Array.prototype.slice.call(userForm).forEach(function (form) {
       form.addEventListener('submit', function (event) {
         if (!form.checkValidity()) {
           event.preventDefault()
