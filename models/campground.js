@@ -21,7 +21,9 @@ const campgroundSchema = new Schema({
     image: [ImageSchema],
     price: Number,
     description: String,
-    location: String,
+    city: String,
+    country: String,
+    detail: String,
     geometry: {
         type: {
             type: String,
@@ -42,6 +44,7 @@ const campgroundSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref:'Review',
     }],
+    
 }, opts);
 
 
