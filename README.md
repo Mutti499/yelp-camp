@@ -1,4 +1,4 @@
-# YelpCamp - https://www.mutti.one/
+# YelpCamp
 YelpCamp is a full-stack website project where users can create and review campgrounds.
 In order to review or create a campground, you must have an account. This project is a part of Colt Steele's web dev bootcamp course on udemy.
 
